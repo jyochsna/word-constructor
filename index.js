@@ -1,35 +1,92 @@
+
+var Word = require("./word.js");
 var inquirer = require("inquirer");
-var Letter = require("./Letter");
-var Word = require("./Word");
 
-var wordsArray = ["January" , "February", "March" , "April", "May", "June", "July" , "December"];
-
-function startGame(){
-    var currentUnguessed = 1;
-    var randomPick = Math.floor(Math.random()*wordsArray.length);
-    var randomWord = wordsArray[randomPick];
-    var newWord = new Word(randomWord);
-}
-
-function userInput(){
-    inquirer
-    .prompt({
-        type: "input",
-        name: "guess",
-        message: "Guess a Letter !",
-    }).then(function(answers){
-        console.log("----test---")
-        console.log(answers);
-        // currentUnguessed = 0;
-        // for (i=0; i<newWord.letters.length; i++){
-        //     switch(newWord.letters[i].letter){
-        //         case(answer.guess):
-        //         newWord.letter[i].guess(answer.guess);
-        //         break;
-        //     };
-        //     switch
-        // }
-    })
-}
+//
+var guessCount = 10;
+var word;
+var wordsArray = ["apple", "banana", "watermelon", "oranges", "kiwis"];
+var wordGuess ;
+//
 startGame();
-userInput();
+
+function startGame() {
+    guessCount = 10;
+    wordGuess - [];
+    var randomWord = Math.floor(Math.random() * wordsArray.length);
+ 
+    word = new Word(wordsArray[randomWord]);
+    
+}
+
+// 
+function prompt() {
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                message: "Guess a letter!",
+                name: "letter"
+            }
+        ])
+        .then(response => {
+            // 
+            if (guesses.indexOf(response.letter) === -1) {
+                guesses.push(response.letter);
+                if (word.check(response.letter)) correct();
+                else incorrect();
+            } else {
+                trace("\nYou already guessed that letter.  Please guess again.\n");
+                prompt();
+            }
+        });
+}
+
+function correct() {
+    word.display();
+    trace("\nCORRECT!!!\n");
+    if (word.done) {
+        if (word_arr.length > 0) {
+            trace("You got it right!! Next word!\n");
+            startGame();
+        } else {
+            trace("Congratulations! You guessed all the words!!");
+        }
+    } else {
+        prompt();
+    }
+}
+
+function incorrect() {
+    word.display();
+    trace("\nINCORRECT!!!\n");
+    trace(--qCnt, "guesses remaining!!!\n");
+    if (qCnt === 0) {
+        trace("You're out of guesses.\n");
+        playAgain();
+    } else {
+        prompt();
+    }
+}
+
+function playAgain() {
+    inquirer
+        .prompt([
+            {
+                type: "confirm",
+                message: "Would you like to play again?",
+                name: "confirm",
+                default: true
+            }
+        ])
+        .then(response => {
+            // 
+            if (response.confirm) {
+                startGame();
+            }
+        });
+}
+
+function trace(...args) {
+    console.log(args.join(' '));
+}
