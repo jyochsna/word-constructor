@@ -7,7 +7,7 @@ This is a word guess game using constructor and run solely in the console.
 The constructor-word-guess is dependent upon Inquirer packages.
 
 This packages can be installes using npm install command
-<img src="images/inquirer.jpg">
+![](images/inquirer.JPG)
 
 ## Instructions
 The Constructor word guess application is opened with the following command: node index.js
