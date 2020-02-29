@@ -1,92 +1,74 @@
 
-var Word = require("./word.js");
 var inquirer = require("inquirer");
+var Letter = require("./Letter");
+var Word = require("./Word");
 
-//
-var guessCount = 10;
-var word;
-var wordsArray = ["apple", "banana", "watermelon", "oranges", "kiwis"];
-var wordGuess ;
-//
-startGame();
+var acceptedKeys = "abcdefghijklmnopqrstuvwxyz";
+var guessesAllowed = 10;
+var currentUnguessedCount;
+var winCount = 0;
+var lossCount = 0;
 
-function startGame() {
-    guessCount = 10;
-    wordGuess - [];
-    var randomWord = Math.floor(Math.random() * wordsArray.length);
- 
-    word = new Word(wordsArray[randomWord]);
-    
+var wordArray = ["january", "february", "april", "june", "july","november"]
+unction newGame() {
+    currentUnguessedCount = 1;
+    var randomPick = Math.floor(Math.random() * wordOptions.length);
+    var randomWord = wordOptions[randomPick];
+    var newWord = new Word(randomWord, [], 10);
+    newWord.parseLetters();
+    newWord.guessString();
+    function userInput() {
+        inquirer
+            .prompt([
+                {
+                    type: "input",
+                    name: "guess",
+                    message: "Guess a letter!",
+                    validate: function (input) {
+                        if (acceptedKeys.indexOf(input) !== -1 && input.length === 1) {
+                            return true;
+                        } else {
+                            console.log("\nNot a valid guess... Enter a single, lowercase letter");
+                            return false;
+                        }
+                    }
+                }
+            ]).then(function (answers) {
+                currentUnguessedCount = 0;
+                for (i = 0; i < newWord.letters.length; i++) {
+                    switch (newWord.letters[i].letter) {
+                        case (answers.guess):
+                            newWord.letters[i].guess(answers.guess);
+                            break;
+                    }; //Marks letters.guessed as true when correctly guessed
+                    switch (newWord.letters[i].guessed) {
+                        case false:
+                            currentUnguessedCount++;
+                    };
+                };
+                newWord.guessString();
+                switch (currentUnguessedCount) {
+                    case 0:
+                        winCount++;
+                        console.log("Congrats! You've won!\nSo far, you've won " + winCount + " games!\n----------------------------\nHere's your next word!");
+                        newGame();
+                        break;
+                    default:
+                        switch (newWord.guessesRemaining) {
+                            case 0:
+                                console.log("You've run out of guesses! Try a new word.");
+                                newGame();
+                                break;
+                            default:
+                                newWord.wrongGuess(answers.guess);
+                                userInput();
+                        };
+
+                };
+            });
+
+    };
+    userInput();
 }
-
-// 
-function prompt() {
-    inquirer
-        .prompt([
-            {
-                type: "input",
-                message: "Guess a letter!",
-                name: "letter"
-            }
-        ])
-        .then(response => {
-            // 
-            if (guesses.indexOf(response.letter) === -1) {
-                guesses.push(response.letter);
-                if (word.check(response.letter)) correct();
-                else incorrect();
-            } else {
-                trace("\nYou already guessed that letter.  Please guess again.\n");
-                prompt();
-            }
-        });
-}
-
-function correct() {
-    word.display();
-    trace("\nCORRECT!!!\n");
-    if (word.done) {
-        if (word_arr.length > 0) {
-            trace("You got it right!! Next word!\n");
-            startGame();
-        } else {
-            trace("Congratulations! You guessed all the words!!");
-        }
-    } else {
-        prompt();
-    }
-}
-
-function incorrect() {
-    word.display();
-    trace("\nINCORRECT!!!\n");
-    trace(--qCnt, "guesses remaining!!!\n");
-    if (qCnt === 0) {
-        trace("You're out of guesses.\n");
-        playAgain();
-    } else {
-        prompt();
-    }
-}
-
-function playAgain() {
-    inquirer
-        .prompt([
-            {
-                type: "confirm",
-                message: "Would you like to play again?",
-                name: "confirm",
-                default: true
-            }
-        ])
-        .then(response => {
-            // 
-            if (response.confirm) {
-                startGame();
-            }
-        });
-}
-
-function trace(...args) {
-    console.log(args.join(' '));
-}
+console.log("Welcome! Here's your first word...")
+newGame();
