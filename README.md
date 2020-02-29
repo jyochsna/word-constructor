@@ -1,5 +1,4 @@
-# <h1 align = 'centre'> Constructor Word Guess </h1>
-
+## Constructor Word Guess
 ## Overview
 This is a word guess game using constructor and run solely in the console.
 
