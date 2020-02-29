@@ -1,4 +1,3 @@
-
 var inquirer = require("inquirer");
 var Letter = require("./Letter");
 var Word = require("./Word");
@@ -8,9 +7,11 @@ var guessesAllowed = 10;
 var currentUnguessedCount;
 var winCount = 0;
 var lossCount = 0;
+var message;
 
-var wordArray = ["january", "february", "april", "june", "july","november"]
-unction newGame() {
+var wordOptions = ["mercury", "venus", "earth", "mars", "saturn", "jupiter", "neptune", "uranus"];
+
+function newGame() {
     currentUnguessedCount = 1;
     var randomPick = Math.floor(Math.random() * wordOptions.length);
     var randomWord = wordOptions[randomPick];

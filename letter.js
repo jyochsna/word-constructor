@@ -1,6 +1,4 @@
-
-
-
+var newLetter;
 
 function Letter(letter,guessed,current) {
     this.letter = letter;
