@@ -9,7 +9,7 @@ var winCount = 0;
 var lossCount = 0;
 var message;
 
-var wordOptions = ["mercury", "venus", "earth", "mars", "saturn", "jupiter", "neptune", "uranus"];
+var wordOptions = ["watermelon", "kiwis","raspberry", "banana", "guava"];
 
 function newGame() {
     currentUnguessedCount = 1;
@@ -29,7 +29,7 @@ function newGame() {
                         if (acceptedKeys.indexOf(input) !== -1 && input.length === 1) {
                             return true;
                         } else {
-                            console.log("\nNot a valid guess... Enter a single, lowercase letter");
+                            console.log("\n Enter a single, lowercase letter");
                             return false;
                         }
                     }
@@ -51,7 +51,7 @@ function newGame() {
                 switch (currentUnguessedCount) {
                     case 0:
                         winCount++;
-                        console.log("Congrats! You've won!\nSo far, you've won " + winCount + " games!\n----------------------------\nHere's your next word!");
+                        console.log("Congrats! You've won!\n you've won " + winCount + " games!\n----------------------------\nHere's your next word!");
                         newGame();
                         break;
                     default:
